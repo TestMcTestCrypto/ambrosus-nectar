@@ -1,11 +1,16 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.6.12;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 import {VaultAPI, BaseWrapper} from "../BaseWrapper.sol";
 
 contract AffiliateToken is ERC20, BaseWrapper {
+    using SafeMath for uint256;
+
+    uint8 public __decimals;
+
     /// @notice The EIP-712 typehash for the contract's domain
     bytes32 public constant DOMAIN_TYPEHASH = keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)");
     bytes32 public immutable DOMAIN_SEPARATOR;
@@ -30,11 +35,15 @@ contract AffiliateToken is ERC20, BaseWrapper {
         address _registry,
         string memory name,
         string memory symbol
-    ) public BaseWrapper(_token, _registry) ERC20(name, symbol) {
+    ) BaseWrapper(_token, _registry) ERC20(name, symbol) {
         DOMAIN_SEPARATOR = keccak256(abi.encode(DOMAIN_TYPEHASH, keccak256(bytes(name)), keccak256(bytes("1")), _getChainId(), address(this)));
         affiliate = msg.sender;
-        _setupDecimals(uint8(ERC20(address(token)).decimals()));
+        __decimals = uint8(ERC20(address(token)).decimals());
     }
+
+    function decimals() public view override returns (uint8) {
+		return __decimals;
+	}
 
     function _getChainId() internal view returns (uint256) {
         uint256 chainId;
@@ -79,7 +88,7 @@ contract AffiliateToken is ERC20, BaseWrapper {
     }
 
     function deposit() external returns (uint256) {
-        return deposit(uint256(-1)); // Deposit everything
+        return deposit(type(uint256).max); // Deposit everything
     }
 
     function deposit(uint256 amount) public returns (uint256 deposited) {

@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-only
-pragma solidity ^0.6.12;
+pragma solidity ^0.8.0;
 
-import {Math} from "@openzeppelin/contracts/math/Math.sol";
-import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
+import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
+import {SafeMath} from "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {VaultAPI} from "../BaseStrategy.sol";
 
 interface IStrategy {
@@ -28,7 +28,7 @@ contract SimpleStrategy is IStrategy {
     uint256 public nextWidthdraw;
     uint256 public nextLoss;
 
-    constructor(address _want, address _vault) public {
+    constructor(address _want, address _vault) {
         want = _want;
         vault = _vault;
         IERC20(_want).safeApprove(_vault, type(uint256).max);

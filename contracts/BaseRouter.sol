@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.6.12;
+pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
-import {Math} from "@openzeppelin/contracts/math/Math.sol";
-import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
+import {SafeMath} from "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 import {VaultAPI} from "./BaseStrategy.sol";
 
@@ -45,7 +45,7 @@ abstract contract BaseRouter {
     uint256 constant DEPOSIT_EVERYTHING = type(uint256).max;
     uint256 constant WITHDRAW_EVERYTHING = type(uint256).max;
 
-    constructor(address _registry) public {
+    constructor(address _registry) {
         // Recommended to use `v2.registry.ychad.eth`
         registry = RegistryAPI(_registry);
     }

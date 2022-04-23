@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.6.12;
+pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {BaseStrategyInitializable, StrategyParams, VaultAPI} from "../BaseStrategy.sol";
-import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 /*
  * This Strategy serves as both a mock Strategy for testing, and an example
@@ -12,6 +13,8 @@ import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
  */
 
 contract TestStrategy is BaseStrategyInitializable {
+    using SafeMath for uint256;
+
     bool public doReentrancy;
     bool public delegateEverything;
 
@@ -20,7 +23,7 @@ contract TestStrategy is BaseStrategyInitializable {
     // to test `BaseStrategy.protectedTokens()`
     address public constant protectedToken = address(0xbad);
 
-    constructor(address _vault) public BaseStrategyInitializable(_vault) {}
+    constructor(address _vault) BaseStrategyInitializable(_vault) {}
 
     function name() external view override returns (string memory) {
         return string(abi.encodePacked("TestStrategy ", apiVersion()));

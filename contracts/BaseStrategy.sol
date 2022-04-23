@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity >=0.6.0 <0.7.0;
+pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
-import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {SafeMath} from "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import {StrategyLib} from "./StrategyLib.sol";
 
 struct StrategyParams {
@@ -329,7 +329,7 @@ abstract contract BaseStrategy {
         );
     }
 
-    constructor(address _vault) public {
+    constructor(address _vault) {
         _initialize(_vault, msg.sender, msg.sender, msg.sender);
     }
 
@@ -867,7 +867,7 @@ abstract contract BaseStrategyInitializable is BaseStrategy {
     bool public isOriginal = true;
     event Cloned(address indexed clone);
 
-    constructor(address _vault) public BaseStrategy(_vault) {}
+    constructor(address _vault) BaseStrategy(_vault) {}
 
     function initialize(
         address _vault,
