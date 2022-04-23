@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.4;
 
 import {ICustomHealthCheck} from "./interfaces/ICustomHealthCheck.sol";
 import {StrategyAPI} from "./BaseStrategy.sol";
